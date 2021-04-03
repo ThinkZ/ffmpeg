@@ -1,22 +1,22 @@
 name: Docker Image CI
 	
-	on:
-	  push:
-	    branches: [ main ]
-	  pull_request:
-	    branches: [ main ]
-	
-	jobs:
-	
-	  build:
-	
-	    runs-on: ubuntu-latest
-	
-	    steps:
-	    - uses: actions/checkout@v2
-	    - name: Build the Docker image
-	      run:  docker build . --file Dockerfile --tag thinkz/ffmpeg:$(date +%s)
-	    - name: Login to DockerHub Registry
-	      run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-	    - name: push to docker
-	      run: docker push thinkz/ffmpeg:$(date +%s)
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run:  docker build . --file Dockerfile --tag thinkz/ffmpeg:$(date +%s)
+    - name: Login to DockerHub Registry
+      run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+    - name: push to docker
+      run: docker push thinkz/ffmpeg:$(date +%s)
