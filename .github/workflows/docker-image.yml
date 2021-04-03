@@ -28,7 +28,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: thinkz/ffmpeg:1-github
+          tags: thinkz/ffmpeg:alpine-3.13
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
