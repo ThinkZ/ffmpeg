@@ -21,11 +21,10 @@ RUN apk add --update \
     tzdata 
 
 # Get fdk-aac from community.
+ENV TZ Asia/Shanghai 
 RUN echo "http://mirrors.ustc.edu.cn/alpine/edge/community" >> /etc/apk/repositories && \
     apk add --update fdk-aac-dev libsrt-dev && \
-    ENV TZ Asia/Shanghai 
-
-RUN export MAKEFLAGS="-j16" && \
+    export MAKEFLAGS="-j16" && \
     mkdir /tmp/ffmpeg_build && cd /tmp/ffmpeg_build && \
     echo "wget -q ${DOWNLOAD_URL}" && wget -q ${DOWNLOAD_URL} && \
     tar zx --strip-components=1 -f ffmpeg-${FFMPEG_VERSION}.tar.gz && \
@@ -46,11 +45,12 @@ COPY root /
 COPY --from=builder /tmp/ffmpeg_build/ffmpeg /usr/local/bin/ffmpeg
 COPY --from=builder /tmp/ffmpeg_build/ffprobe /usr/local/bin/ffprobe
 
-RUN apk add --update --no-cache ca-certificates openssl lame librtmp x264-libs && \
+RUN apk add --update --no-cache ca-certificates openssl lame librtmp x264-libs tzdata && \
     echo http://mirrors.ustc.edu.cn/alpine/edge/community >> /etc/apk/repositories && \
     apk add --update --no-cache libsrt fdk-aac && \
     ffmpeg -buildconf
 
+ENV TZ Asia/Shanghai 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 WORKDIR /tmp 
