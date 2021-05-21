@@ -21,10 +21,11 @@ RUN apk add --update \
     tzdata 
 
 # Get fdk-aac from community.
-RUN echo http://mirrors.ustc.edu.cn/alpine/edge/community >> /etc/apk/repositories && \
+RUN echo "http://mirrors.ustc.edu.cn/alpine/edge/community" >> /etc/apk/repositories && \
     apk add --update fdk-aac-dev libsrt-dev && \
-    ENV TZ Asia/Shanghai && \
-    export MAKEFLAGS="-j16" && \
+    ENV TZ Asia/Shanghai 
+
+RUN export MAKEFLAGS="-j16" && \
     mkdir /tmp/ffmpeg_build && cd /tmp/ffmpeg_build && \
     echo "wget -q ${DOWNLOAD_URL}" && wget -q ${DOWNLOAD_URL} && \
     tar zx --strip-components=1 -f ffmpeg-${FFMPEG_VERSION}.tar.gz && \
