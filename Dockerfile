@@ -1,6 +1,6 @@
-ARG ALPINE_IMAGE=alpine:3.12
+ARG ALPINE_IMAGE=alpine:3.15
 
-FROM $ALPINE_IMAGE as builder
+FROM $ALPINE_IMAGE AS builder
 ARG FFMPEG_VERSION=5.1
 ARG DOWNLOAD_URL=http://ffmpeg.org/releases/ffmpeg-5.1.tar.gz 
 
@@ -21,7 +21,7 @@ RUN apk add --update \
     tzdata 
 
 # Get fdk-aac from community.
-ENV TZ Asia/Shanghai 
+ENV TZ=Asia/Shanghai 
 # RUN echo "http://mirrors.ustc.edu.cn/alpine/edge/community" >> /etc/apk/repositories && \
 RUN apk add --update fdk-aac-dev libsrt-dev && \
     export MAKEFLAGS="-j16" && \
@@ -50,7 +50,7 @@ RUN apk add --update --no-cache ca-certificates openssl lame librtmp x264-libs t
     chmod +x /usr/local/bin/docker-entrypoint.sh && \
     ffmpeg -buildconf
 
-ENV TZ Asia/Shanghai 
+ENV TZ=Asia/Shanghai 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 WORKDIR /tmp 
