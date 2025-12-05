@@ -1,8 +1,8 @@
 ARG ALPINE_IMAGE=alpine:3.12
 
 FROM $ALPINE_IMAGE as builder
-ARG FFMPEG_VERSION=4.4
-ARG DOWNLOAD_URL=http://ffmpeg.org/releases/ffmpeg-4.4.tar.gz 
+ARG FFMPEG_VERSION=5.1
+ARG DOWNLOAD_URL=http://ffmpeg.org/releases/ffmpeg-5.1.tar.gz 
 
 RUN apk add --update \
     build-base \
@@ -22,8 +22,8 @@ RUN apk add --update \
 
 # Get fdk-aac from community.
 ENV TZ Asia/Shanghai 
-RUN echo "http://mirrors.ustc.edu.cn/alpine/edge/community" >> /etc/apk/repositories && \
-    apk add --update fdk-aac-dev libsrt-dev && \
+# RUN echo "http://mirrors.ustc.edu.cn/alpine/edge/community" >> /etc/apk/repositories && \
+RUN apk add --update fdk-aac-dev libsrt-dev && \
     export MAKEFLAGS="-j16" && \
     mkdir /tmp/ffmpeg_build && cd /tmp/ffmpeg_build && \
     echo "wget -q ${DOWNLOAD_URL}" && wget -q ${DOWNLOAD_URL} && \
@@ -45,9 +45,8 @@ COPY root /
 COPY --from=builder /tmp/ffmpeg_build/ffmpeg /usr/local/bin/ffmpeg
 COPY --from=builder /tmp/ffmpeg_build/ffprobe /usr/local/bin/ffprobe
 
-RUN apk add --update --no-cache ca-certificates openssl lame librtmp x264-libs tzdata && \
-    echo http://mirrors.ustc.edu.cn/alpine/edge/community >> /etc/apk/repositories && \
-    apk add --update --no-cache libsrt fdk-aac && \
+#RUN echo http://mirrors.ustc.edu.cn/alpine/edge/community >> /etc/apk/repositories && \
+RUN apk add --update --no-cache ca-certificates openssl lame librtmp x264-libs tzdata libsrt fdk-aac && \
     chmod +x /usr/local/bin/docker-entrypoint.sh && \
     ffmpeg -buildconf
 
