@@ -38,7 +38,8 @@ RUN apk add --update fdk-aac-dev libsrt-dev && \
          --enable-static --disable-shared \
          --enable-gpl --enable-version3 --enable-nonfree \
          --extra-version=ThinkZ-$(date "+%Y%m%d-%H%M%S") && \
-    make
+    make && \
+    /tmp/ffmpeg_build/ffmpeg -version
 
 
 FROM $ALPINE_IMAGE
