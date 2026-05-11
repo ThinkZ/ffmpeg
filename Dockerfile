@@ -37,10 +37,10 @@ RUN apk add --update fdk-aac-dev libsrt-dev && \
          --disable-doc --disable-programs --enable-ffmpeg --enable-ffprobe \
          --enable-static --disable-shared \
          --enable-gpl --enable-version3 --enable-nonfree \
+         --extra-libs="-lpthread -lm" --pkg-config-flags="--static" \
          --extra-version=ThinkZ-$(date "+%Y%m%d-%H%M%S") && \
-    make && \
-    /tmp/ffmpeg_build/ffmpeg -version
-
+    make make -j$(nproc) && make && \
+    ldd /tmp/ffmpeg_build/ffmpeg && /tmp/ffmpeg_build/ffmpeg -version
 
 FROM $ALPINE_IMAGE
 COPY root /
