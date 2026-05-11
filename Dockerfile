@@ -47,7 +47,7 @@ COPY --from=builder /tmp/ffmpeg_build/ffmpeg /usr/local/bin/ffmpeg
 COPY --from=builder /tmp/ffmpeg_build/ffprobe /usr/local/bin/ffprobe
 
 #RUN echo http://mirrors.ustc.edu.cn/alpine/edge/community >> /etc/apk/repositories && \
-RUN apk add --update --no-cache ca-certificates openssl lame librtmp x264-libs tzdata libsrt fdk-aac && \
+RUN apk add --update --no-cache ca-certificates openssl lame librtmp x264-libs tzdata libsrt fdk-aac bzip2 && \
     chmod +x /usr/local/bin/docker-entrypoint.sh && \
     ffmpeg -buildconf
 
