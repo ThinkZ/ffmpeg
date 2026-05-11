@@ -18,6 +18,7 @@ RUN apk add --update \
     wget \
     x264-dev \
     yasm \
+    bzip2-dev \
     tzdata 
 
 # Get fdk-aac from community.
