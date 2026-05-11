@@ -1,8 +1,8 @@
-ARG ALPINE_IMAGE=alpine:3.15
+ARG ALPINE_IMAGE=alpine:3.17
 
 FROM $ALPINE_IMAGE AS builder
-ARG FFMPEG_VERSION=5.1
-ARG DOWNLOAD_URL=http://ffmpeg.org/releases/ffmpeg-5.1.tar.gz 
+ARG FFMPEG_VERSION=5.1.9
+ARG DOWNLOAD_URL=http://ffmpeg.org/releases/ffmpeg-5.1.9.tar.gz 
 
 RUN apk add --update \
     build-base \
